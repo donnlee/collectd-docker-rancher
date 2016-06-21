@@ -8,6 +8,8 @@ FROM donn/collectd-docker
 MAINTAINER donn
 
 # Grab the host's hostname from rancher-metadata API. Substitute in .conf file.
+# If this image is run without Rancher, then curl will fail and perl
+# substitution will not be executed.
 RUN COLLECTD_HOSTNAME=$(curl -s http://rancher-metadata/2015-12-19/self/host/hostname) \
     && /usr/bin/perl -p -i -e "s/Hostname \".+\"/Hostname \"${COLLECTD_HOSTNAME}\"/g" \
       /etc/collectd/collectd.conf
