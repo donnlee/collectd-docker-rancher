@@ -9,7 +9,8 @@ MAINTAINER donn
 
 # Grab the host's hostname from rancher-metadata API. Substitute in .conf file.
 # If this image is run without Rancher, then curl will fail and perl
-# substitution will not be executed.
+# substitution will not happen.
+
 # Append 'exit 0' to ignore 'docker build' error when attempting curl.
 RUN COLLECTD_HOSTNAME=$(curl -s http://rancher-metadata/2015-12-19/self/host/hostname); exit 0
 RUN if [ "$COLLECTD_HOSTNAME" ]; \
