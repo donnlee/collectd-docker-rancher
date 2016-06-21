@@ -5,21 +5,10 @@
 # SOURCE: https://github.com/donnlee/collectd-docker-rancher
 
 FROM donn/collectd-docker
-MAINTAINER donn
+MAINTAINER Donn Lee <docker@pluza.com>
 
-# Grab the host's hostname from rancher-metadata API. Substitute in .conf file.
-# If this image is run without Rancher, then curl will fail and perl
-# substitution will not happen.
+ADD get_hostname_and_run.sh /root/get_hostname_and_run.sh
+RUN chmod +x /root/get_hostname_and_run.sh
 
-# Append 'exit 0' to ignore 'docker build' error when attempting curl.
-#RUN sleep 120; COLLECTD_HOSTNAME=$(curl -s http://rancher-metadata/2015-12-19/self/host/hostname); exit 0
-#RUN if [ "$COLLECTD_HOSTNAME" ]; \
-#    then /usr/bin/perl -p -i -e "s/Hostname \".+\"/Hostname \"${COLLECTD_HOSTNAME}\"/g" \
-#      /etc/collectd/collectd.conf; \
-#    else echo "Failed to get host's hostname from rancher-metadata API." > /debug; \
-#    fi
-ADD get_hostname.sh /root/get_hostname.sh
-RUN chmod +x /root/get_hostname.sh
-
-CMD ["/root/get_hostname.sh"]
+CMD ["/root/get_hostname_and_run.sh"]
 
