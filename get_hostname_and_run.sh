@@ -3,7 +3,7 @@
 set -x
 
 # Set hostname env var for collectd container using Rancher's metadata service.
-HOST_NAME=$(curl -s http://rancher-metadata/2015-12-19/self/host/hostname)
+export HOST_NAME=$(curl -s http://rancher-metadata/2015-12-19/self/host/hostname)
 
 if [[ -z $HOST_NAME ]]
 then
